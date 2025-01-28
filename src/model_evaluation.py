@@ -18,8 +18,8 @@ y_pred_proba = clf.predict_proba(X_test)[:, 1]
 
 # Calculate evaluation metrics
 accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, pos_label='neutral')
+recall = recall_score(y_test, y_pred, pos_label='neutral')
 auc = roc_auc_score(y_test, y_pred_proba)
 
 metrics_dict={
