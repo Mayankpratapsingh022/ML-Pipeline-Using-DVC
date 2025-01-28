@@ -1,49 +1,47 @@
 import numpy as np
 import pandas as pd
+
 import os
+
 import re
 import nltk
 import string
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer, WordNetLemmatizer
 
-
 # fetch the data from data/raw
-
 train_data = pd.read_csv('./data/raw/train.csv')
-test_data = pd.read_csv('./dat/raw/test.csv')
-
+test_data = pd.read_csv('./data/raw/test.csv')
 
 # transform the data
 nltk.download('wordnet')
 nltk.download('stopwords')
 
 def lemmatization(text):
-    lemmatizer = WordNetLemmatizer()
+    lemmatizer= WordNetLemmatizer()
 
     text = text.split()
 
-    text = [lemmatizer.lemmatize(y) for y in text]
+    text=[lemmatizer.lemmatize(y) for y in text]
 
-    return " ".join(text)
+    return " " .join(text)
 
 def remove_stop_words(text):
     stop_words = set(stopwords.words("english"))
-    Text = [ i for i in str(text).split() if i not in stop_words]
+    Text=[i for i in str(text).split() if i not in stop_words]
     return " ".join(Text)
-
 
 def removing_numbers(text):
     text=''.join([i for i in text if not i.isdigit()])
     return text
 
-
 def lower_case(text):
 
     text = text.split()
-    text = [y.lower() for y in text]
 
-    return " ".join(text)
+    text=[y.lower() for y in text]
+
+    return " " .join(text)
 
 def removing_punctuations(text):
     ## Remove punctuations
@@ -55,18 +53,14 @@ def removing_punctuations(text):
     text =  " ".join(text.split())
     return text.strip()
 
-
-
 def removing_urls(text):
     url_pattern = re.compile(r'https?://\S+|www\.\S+')
     return url_pattern.sub(r'', text)
-
 
 def remove_small_sentences(df):
     for i in range(len(df)):
         if len(df.text.iloc[i].split()) < 3:
             df.text.iloc[i] = np.nan
-
 
 def normalize_text(df):
     df.content=df.content.apply(lambda content : lower_case(content))
@@ -76,7 +70,6 @@ def normalize_text(df):
     df.content=df.content.apply(lambda content : removing_urls(content))
     df.content=df.content.apply(lambda content : lemmatization(content))
     return df
-
 
 train_processed_data = normalize_text(train_data)
 test_processed_data = normalize_text(test_data)

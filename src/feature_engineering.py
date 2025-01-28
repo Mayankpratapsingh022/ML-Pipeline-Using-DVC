@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
+
 import os
+
 from sklearn.feature_extraction.text import CountVectorizer
 
 # fetch the data from data/processed
@@ -26,7 +28,6 @@ X_train_bow = vectorizer.fit_transform(X_train)
 # Transform the test data using the same vectorizer
 X_test_bow = vectorizer.transform(X_test)
 
-
 train_df = pd.DataFrame(X_train_bow.toarray())
 
 train_df['label'] = y_train
@@ -34,7 +35,6 @@ train_df['label'] = y_train
 test_df = pd.DataFrame(X_test_bow.toarray())
 
 test_df['label'] = y_test
-
 
 # store the data inside data/features
 data_path = os.path.join("data","features")
